@@ -5,6 +5,12 @@
   text-align: center;
 }
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -39,4 +45,42 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.container-name{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+li{
+  list-style: none;
+  border-bottom: #10101010 1px solid;
+  width: 100%;
+  text-align: start;
+}
+
+.title-name{
+  font-size: x-large;
+}
+
+.box-name {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.list-name {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: 200px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+input {
+  width: 100%;
 }
