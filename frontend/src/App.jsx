@@ -1,30 +1,72 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios';
+import Swal from "sweetalert2"
 
 function App() {
-  const [ sayName, setSayName ] = useState("");
-  const [ callName, setCallName ] = useState("");
+  const [ newName, setNewName ] = useState({name: ""});
+  const [ nameList, setNameList ] = useState([]);
 
-  const fetch = async (name) => {
-    const response = await axios.get(`http://localhost:3000/api/hello?name=${name}`);
-    setCallName(response.data);
+  const fetch = async () => {
+    const response = await axios.get(`http://localhost:3000/api/v1/name/getAll`);
+    setNameList(response.data);
     console.log("TEST: ", response);
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(
+      `http://localhost:3000/api/v1/name`,
+      newName
+    );
+
+    Swal.fire({
+      title: "Added Success!",
+      icon: "success",
+      draggable: true,
+    });
+
+    setNewName({name: ""});
+    return response
+  }
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setNewName({...newName, [name]: value})
+  }
+
   useEffect(() => {
-    fetch(sayName);
-  }, [sayName]);
+    fetch();
+  }, [newName]);
 
   return (
-    <div>
-     {callName && (
-      <div>{callName}</div>
-     )}
+    <div className="container-name">
+      <div className='box-name'>
+        <h3 className='title-name'>Name List</h3>
+        <ul className='list-name'>
+          {nameList.map((item, index) => (
+            <li className="object-name" key={index}>
+              {item.name}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-     <input type="text" onChange={(e) => setSayName(e.target.value)} name='name' id="name" value={sayName} />
+      <form method="POST">
+        <input
+          type='text'
+          onChange={handleOnChange}
+          name="name"
+          value={newName.name}
+          required
+        />
+        <p></p>
+        <button type="submit" onClick={handleSubmit}>
+          ADD
+        </button>
+      </form>
     </div>
-  )
+  );
 }
 
 export default App
