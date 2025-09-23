@@ -1,24 +1,23 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import axios from 'axios';
-import Swal from "sweetalert2"
+import { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function App() {
-  const [ newName, setNewName ] = useState({name: ""});
-  const [ nameList, setNameList ] = useState([]);
+  const [newName, setNewName] = useState({ name: "" });
+  const [nameList, setNameList] = useState([]);
+
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const fetch = async () => {
-    const response = await axios.get(`http://localhost:3000/api/v1/name/getAll`);
+    const response = await axios.get(`${BASE_URL}/getAll`);
     setNameList(response.data);
     console.log("TEST: ", response);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post(
-      `http://localhost:3000/api/v1/name`,
-      newName
-    );
+    const response = await axios.post(`${BASE_URL}/name`, newName);
 
     Swal.fire({
       title: "Added Success!",
@@ -26,14 +25,14 @@ function App() {
       draggable: true,
     });
 
-    setNewName({name: ""});
-    return response
-  }
+    setNewName({ name: "" });
+    return response;
+  };
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setNewName({...newName, [name]: value})
-  }
+    setNewName({ ...newName, [name]: value });
+  };
 
   useEffect(() => {
     fetch();
@@ -41,9 +40,9 @@ function App() {
 
   return (
     <div className="container-name">
-      <div className='box-name'>
-        <h3 className='title-name'>Name List</h3>
-        <ul className='list-name'>
+      <div className="box-name">
+        <h3 className="title-name">Name List</h3>
+        <ul className="list-name">
           {nameList.map((item, index) => (
             <li className="object-name" key={index}>
               {item.name}
@@ -54,7 +53,7 @@ function App() {
 
       <form method="POST">
         <input
-          type='text'
+          type="text"
           onChange={handleOnChange}
           name="name"
           value={newName.name}
@@ -69,4 +68,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
