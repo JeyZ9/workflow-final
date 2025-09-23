@@ -10,7 +10,7 @@ function App() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const fetch = async () => {
-    const response = await axios.get(`${BASE_URL}/getAll`);
+    const response = await axios.get(`${BASE_URL}name/getAll`);
     setNameList(response.data);
     console.log("TEST: ", response);
   };
